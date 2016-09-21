@@ -13,54 +13,43 @@ class MyMCPEWeb extends PluginBase{
 	
 	public function onEnable(){
 		$this->getLogger()->info(TextFormat::WHITE . "MinecraftPEWeb Enabled!!!" );
-		/*
 		$this->getServer ()->getScheduler ()->scheduleRepeatingTask ( new CallbackTask ( [
 			$this,
 			"GetOnlinePlayers"
 		] ), 100 );
-		*/
-		$this->getLogger()->info(TextFormat::WHITE .$this->GetBiomeData() );
+		//$this->getLogger()->info(TextFormat::WHITE .$this->GetBiomeData() );
 	}
 	
 	public function GetOnlinePlayers()
 	{
 		//status of server is on
-		$json_output= "{'status':'on'";
+		//$json_output= "{'status':'on'";
+		$ess_inf=array();
+		$ess_inf["status"]="on";
 		//time of the world
-		$json_output .= ",'time':";
+		//$json_output .= ",'time':";
 		foreach($this->getServer()->getLevels() as $level){
 			if($level->getName()=='world')
-				$json_output .=$level->getTime()."";
+				$ess_inf["time"]=$level->getTime();
 		}
 		//player details
-		$json_output .= ",'players':";
-		$added = false;
+		//$json_output .= ",'players':";
+		//$usr_inf=array();
+		//$added = false;
 		$onlineCount = 0;
 		foreach($this->getServer()->getOnlinePlayers() as $player){
 			if($player->isOnline()){
-				if($added)
-				{
-					$json_output .=",";
-				}
-				else
-				{
-					$json_output .="{";
-					$added = true;
-				}
-				$json_output .= "'" . $player->getDisplayName() . "':{'posx':".$player->getFloorX()."','posy':".$player->getFloorY()."','posz':".$player->getFloorZ()."','worldname':".$player->getLevel()->getName() ."'}";
+				$ess_inf[$player->getDisplayName()][pos_x]=$player->getFloorX();
+				$ess_inf[$player->getDisplayName()][pos_y]=$player->getFloorY();
+				$ess_inf[$player->getDisplayName()][pos_z]=$player->getFloorZ();
+				$ess_inf[$player->getDisplayName()][world]=$player->getLevel()->getName();
+				//$json_output .= "'" . $player->getDisplayName() . "':{'posx':".$player->getFloorX()."','posy':".$player->getFloorY()."','posz':".$player->getFloorZ()."','worldname':".$player->getLevel()->getName() ."'}";
 				++$onlineCount;
 			}
 		}
-		if(!$added)
-		{
-			$json_output .="[]";
-		}
-		else
-		{
-			$json_output .="}";
-		}
-		$json_output .=",'count':".$onlineCount."}";
-		$this->getLogger()->info(TextFormat::WHITE .$json_output);
+		$ess_inf["online_count"]=$onlineCount;
+		$this->getLogger()->info(TextFormat::WHITE . json_encode($ess_inf));
+		//$this->getLogger()->info(TextFormat::WHITE . json_encode($usr_inf));
 	}
 	
 	/* This function will be not available until the website is all working properly.
