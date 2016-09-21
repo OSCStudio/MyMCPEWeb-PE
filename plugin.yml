@@ -1,0 +1,7 @@
+name: MyMCPEWeb
+main: MyMCPEWeb\MyMCPEWeb
+version: 1.0.0
+api: 2.0.0
+author: Hu Qingyang
+description: Create a simple website for Pocketmine/Genisys
+website: https://mc.oscs.io
