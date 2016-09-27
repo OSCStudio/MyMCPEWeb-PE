@@ -8,6 +8,7 @@ use pocketmine\utils\TextFormat;
 use pocketmine\utils\Config;
 use pocketmine\scheduler\CallbackTask;
 use pocketmine\Level\level;
+use pocketmine\entity\Human;
 
 
 class MyMCPEWeb extends PluginBase{
@@ -36,6 +37,9 @@ class MyMCPEWeb extends PluginBase{
 				$ess_inf[$player->getDisplayName()]['pos_y']=$player->getFloorY();
 				$ess_inf[$player->getDisplayName()]['pos_z']=$player->getFloorZ();
 				$ess_inf[$player->getDisplayName()]['world']=$player->getLevel()->getName();
+				$ess_inf[$player->getDisplayName()]['exp']=$player->getXpLevel();
+				$ess_inf[$player->getDisplayName()]['health']=$player->getHealth();
+				//$ess_inf[$player->getDisplayName()]['exp']=$player->getXpLevel();
 				++$onlineCount;
 			}
 		}
